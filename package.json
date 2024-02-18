@@ -1,0 +1,26 @@
+{
+  "name": "order-number-generator",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Order Number Generator",
+  "scripts": {
+    "start": "serverless offline start -s dev",
+    "start-dynamo-local": "serverless dynamodb start -s dev",
+    "install-dynamo-local": "serverless dynamodb install -s dev",
+    "test-curl-command": "curl --location 'http://localhost:3000/api/generateOrderNumber' --header 'Content-Type: application/json' --data '{ \"store_id\": 32913 }' ",
+    "load-testing": "autocannon http://localhost:3000/api/generateOrderNumber -m POST --header 'Content-Type: application/json' --body '{\"store_id\": 4578}' --connections 10 --duration 10 --pipelining 1 --renderStatusCodes"
+  },
+  "devDependencies": {
+    "@serverless/typescript": "^3.30.1",
+    "@types/aws-lambda": "^8.10.119",
+    "@types/node": "^18.0.0",
+    "autocannon": "^7.15.0",
+    "esbuild": "^0.17.19",
+    "serverless": "^3.34.0",
+    "serverless-dynamodb": "^0.2.50",
+    "serverless-esbuild": "^1.46.0",
+    "serverless-offline": "^12.0.4",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.6"
+  }
+}

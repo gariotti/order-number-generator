@@ -1,0 +1,50 @@
+service: order-number-generator
+
+plugins:
+  - serverless-esbuild   	
+  - serverless-dynamodb
+  - serverless-offline 
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  stage: ${opt:stage}
+  timeout: 5   
+  environment: 
+    STAGE: ${self:provider.stage}
+
+functions:
+  orderNumberGenerator:
+    handler: ./src/order-number-generator.handler
+    events:
+      - httpApi:
+          path: /api/generateOrderNumber
+          method: POST
+custom:
+  serverless-dynamodb:
+    stages:
+      - dev
+    start:
+      port: 8000
+      inMemory: true
+      heapInitial: 400m
+      heapMax: 2g
+      migrate: true
+      seed: true
+      convertEmptyValues: true
+resources: 
+  Resources:
+    orderNumbersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: orderNumbersTable
+        AttributeDefinitions:
+          - AttributeName: StoreID
+            AttributeType: N
+        KeySchema:
+          - AttributeName: StoreID
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
