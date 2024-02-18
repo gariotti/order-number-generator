@@ -21,11 +21,11 @@ export class DynamoDBUtils {
   constructor() {
 
     const client = new DynamoDBClient({
-      region: "localhost",
-      endpoint: 'http://localhost:8000',
+      region: process.env.DYNAMODB_REGION || '',
+      endpoint: process.env.DYNAMODB_ENDPOINT || '',
       credentials: {
-        accessKeyId: 'MockAccessKeyId' ,
-        secretAccessKey: 'MockSecretAccessKey' ,
+        accessKeyId: process.env.DYNAMODB_ACCESSKEY || '',
+        secretAccessKey: process.env.DYNAMODB_SECRET || '',
       },
     })
     const docClient = DynamoDBDocumentClient.from(client);

@@ -1,6 +1,6 @@
 import { DynamoDBUtils } from "./dynamodb/dynamodb-utils";
 
-const tableName = "orderNumbersTable";
+const tableName = process.env.DYNAMODB_TABLE_NAME;
 
 export class OrderNumberRepository {
   private ddbUtils: DynamoDBUtils;

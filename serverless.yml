@@ -12,7 +12,7 @@ provider:
   stage: ${opt:stage}
   timeout: 5   
   environment: 
-    STAGE: ${self:provider.stage}
+    ${file(env.${opt:stage, self:provider.stage}.json)}
 
 functions:
   orderNumberGenerator:
@@ -38,7 +38,7 @@ resources:
     orderNumbersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: orderNumbersTable
+        TableName: ${self:provider.environment.DYNAMODB_TABLE_NAME}
         AttributeDefinitions:
           - AttributeName: StoreID
             AttributeType: N
